@@ -3,6 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
 <title>千千许愿箱 · 周边产品</title>
 <style>
   :root {
@@ -171,18 +174,6 @@
   .product-card.limited {
     border-color: #f4a0b5;
   }
-  .product-card.limited::before {
-    content: '线下限定';
-    position: absolute;
-    top: 10px; right: -28px;
-    background: linear-gradient(135deg, var(--rose), #f06080);
-    color: #fff;
-    font-size: 10px;
-    padding: 3px 32px;
-    transform: rotate(45deg);
-    font-weight: 600;
-    letter-spacing: 1px;
-  }
   /* product image */
   .product-img-wrap {
     width: 100%;
@@ -250,14 +241,16 @@
     color: #388e3c;
   }
   .product-offline {
+    display: inline-block;
     font-size: 12px;
     color: #fff;
     background: linear-gradient(135deg, #e81a4c, #f06080);
-    padding: 2px 8px;
+    padding: 2px 10px;
     border-radius: 8px;
     white-space: nowrap;
     font-weight: 600;
     letter-spacing: 1px;
+    margin-top: 2px;
   }
   .add-btn {
     width: 100%;
@@ -292,31 +285,9 @@
     border-color: #ffd966;
     background: linear-gradient(135deg, #fffef5 0%, #fff9e6 100%);
   }
-  .product-card.claim-card::before {
-    content: '📋 离场领取';
-    position: absolute;
-    top: 10px; right: -28px;
-    background: linear-gradient(135deg, #f0a030, #ffc107);
-    color: #fff;
-    font-size: 10px;
-    padding: 3px 30px;
-    transform: rotate(45deg);
-    font-weight: 600;
-  }
   .product-card.gift-card {
     border-color: #ffb8c6;
     background: linear-gradient(135deg, #fff5f7 0%, #fff0f3 100%);
-  }
-  .product-card.gift-card::before {
-    content: '🎀 满赠';
-    position: absolute;
-    top: 10px; right: -28px;
-    background: linear-gradient(135deg, #e81a4c, #f4a0b5);
-    color: #fff;
-    font-size: 10px;
-    padding: 3px 30px;
-    transform: rotate(45deg);
-    font-weight: 600;
   }
   .claim-note, .gift-note {
     font-size: 11px;
@@ -866,8 +837,10 @@ cats.forEach(cat => {
             <div class="product-meta">
               <div class="product-price"><span class="yen">¥</span>${p.price.toFixed(p.price%1?2:0)}</div>
               <div class="product-limit ${limitClass(p.limit)}">${fmtLimit(p.limit)}</div>
-              ${p.limited ? '<div class="product-offline">线下限定</div>' : ''}
             </div>
+            ${p.limited ? '<div class="product-offline">线下限定</div>' : ''}
+            ${p.type === 'claim' ? '<div class="product-offline" style="background:linear-gradient(135deg,#f0a030,#ffc107);color:#fff">📋 离场领取</div>' : ''}
+            ${p.type === 'gift' ? '<div class="product-offline" style="background:linear-gradient(135deg,#e81a4c,#f4a0b5);color:#fff">🎀 满赠</div>' : ''}
             ${extraHtml}
             ${btnHtml}
             <span class="in-cart-qty" id="cartQtyLabel-${p.seq}" style="display:none"></span>
