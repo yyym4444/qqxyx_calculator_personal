@@ -618,6 +618,187 @@
     opacity: 1;
     transform: translateX(-50%) translateY(0);
   }
+
+	  /* ===== SIZE SELECTOR ===== */
+	  .size-selector {
+	    display: flex;
+	    gap: 6px;
+	    margin-top: 4px;
+	    flex-wrap: wrap;
+	  }
+	  .size-option {
+	    flex: 1;
+	    min-width: 36px;
+	    padding: 6px 4px;
+	    border: 2px solid #e8d0d8;
+	    border-radius: 8px;
+	    background: #fff;
+	    color: var(--text);
+	    font-size: 13px;
+	    font-weight: 600;
+	    cursor: pointer;
+	    text-align: center;
+	    transition: all 0.2s;
+	    user-select: none;
+	  }
+	  .size-option:hover {
+	    border-color: var(--rose);
+	    background: var(--rose-light);
+	  }
+	  .size-option.selected {
+	    border-color: var(--rose);
+	    background: var(--rose);
+	    color: #fff;
+	  }
+
+	  /* ===== RECEIPT ===== */
+	  .receipt-overlay {
+	    position: fixed;
+	    inset: 0;
+	    background: rgba(0,0,0,0.45);
+	    z-index: 250;
+	    display: flex;
+	    align-items: center;
+	    justify-content: center;
+	    opacity: 0;
+	    pointer-events: none;
+	    transition: opacity 0.3s;
+	  }
+	  .receipt-overlay.open {
+	    opacity: 1;
+	    pointer-events: auto;
+	  }
+	  .receipt-panel {
+	    background: #fffef9;
+	    width: 360px;
+	    max-width: 90vw;
+	    max-height: 85vh;
+	    overflow-y: auto;
+	    border-radius: 8px;
+	    box-shadow: 0 8px 40px rgba(0,0,0,0.2);
+	    padding: 28px 22px 20px;
+	    font-family: 'Courier New', 'PingFang SC', monospace;
+	    position: relative;
+	    border: 1px dashed #d0c8b0;
+	  }
+	  .receipt-panel::before {
+	    content: '';
+	    position: absolute;
+	    top: 8px; left: 8px; right: 8px; bottom: 8px;
+	    border: 1px dashed #e8e0cc;
+	    border-radius: 4px;
+	    pointer-events: none;
+	  }
+	  .receipt-header {
+	    text-align: center;
+	    margin-bottom: 16px;
+	    position: relative;
+	    z-index: 1;
+	  }
+	  .receipt-shop {
+	    font-size: 18px;
+	    font-weight: 700;
+	    color: var(--rose-dark);
+	    letter-spacing: 1px;
+	  }
+	  .receipt-divider {
+	    text-align: center;
+	    color: #c8b898;
+	    font-size: 10px;
+	    letter-spacing: 3px;
+	    margin: 10px 0;
+	    user-select: none;
+	  }
+	  .receipt-table {
+	    width: 100%;
+	    font-size: 12px;
+	    border-collapse: collapse;
+	    position: relative;
+	    z-index: 1;
+	  }
+	  .receipt-table th {
+	    text-align: left;
+	    padding: 4px 0 6px;
+	    border-bottom: 2px solid #d0c8b0;
+	    color: #8c6e5a;
+	    font-weight: 700;
+	    font-size: 11px;
+	  }
+	  .receipt-table th:last-child { text-align: right; }
+	  .receipt-table td {
+	    padding: 6px 0;
+	    border-bottom: 1px dotted #e0d8c8;
+	    vertical-align: top;
+	    line-height: 1.4;
+	  }
+	  .receipt-table td:last-child {
+	    text-align: right;
+	    font-weight: 600;
+	  }
+	  .receipt-item-name {
+	    font-weight: 600;
+	    color: var(--text);
+	  }
+	  .receipt-item-size {
+	    font-size: 10px;
+	    color: var(--rose);
+	    font-weight: 700;
+	    margin-left: 4px;
+	  }
+	  .receipt-item-meta {
+	    font-size: 10px;
+	    color: var(--text-light);
+	  }
+	  .receipt-total-row td {
+	    border-top: 2px solid #d0c8b0;
+	    font-size: 16px;
+	    font-weight: 800;
+	    color: var(--rose-dark);
+	    padding-top: 10px;
+	  }
+	  .receipt-footer {
+	    text-align: center;
+	    font-size: 11px;
+	    color: #b0a090;
+	    margin-top: 14px;
+	    line-height: 1.8;
+	    position: relative;
+	    z-index: 1;
+	  }
+	  .receipt-close {
+	    display: block;
+	    width: 100%;
+	    margin-top: 16px;
+	    padding: 10px 0;
+	    border: 2px solid var(--rose);
+	    border-radius: 25px;
+	    background: #fff;
+	    color: var(--rose);
+	    font-size: 14px;
+	    font-weight: 700;
+	    cursor: pointer;
+	    letter-spacing: 2px;
+	    transition: all 0.2s;
+	    position: relative;
+	    z-index: 1;
+	  }
+	  .receipt-close:hover {
+	    background: var(--rose);
+	    color: #fff;
+	  }
+	  .receipt-stamp {
+	    position: absolute;
+	    top: 50%;
+	    left: 50%;
+	    transform: translate(-50%, -50%) rotate(-15deg);
+	    font-size: 48px;
+	    color: rgba(232,26,76,0.12);
+	    pointer-events: none;
+	    user-select: none;
+	    white-space: nowrap;
+	    letter-spacing: 4px;
+	    z-index: 0;
+	  }
 </style>
 </head>
 <body>
@@ -669,6 +850,25 @@
 <!-- TOAST -->
 <div class="toast" id="toast"></div>
 
+<!-- RECEIPT -->
+<div class="receipt-overlay" id="receiptOverlay" onclick="closeReceipt()">
+  <div class="receipt-panel" onclick="event.stopPropagation()">
+    <div class="receipt-header">
+      <div class="receipt-shop">🌸 千千许愿箱</div>
+      <div style="font-size:11px;color:#a09080;margin-top:2px">线下快闪 · 周边产品</div>
+    </div>
+    <div class="receipt-divider">- - - - - - ✂ - - - - - -</div>
+    <table class="receipt-table">
+      <thead><tr><th>商品</th><th style="text-align:center;width:40px">件</th><th>金额</th></tr></thead>
+      <tbody id="receiptBody"></tbody>
+    </table>
+    <div class="receipt-divider">- - - - - - ✂ - - - - - -</div>
+    <div class="receipt-footer" id="receiptFooter"></div>
+    <button class="receipt-close" onclick="closeReceipt()">💝 谢谢惠顾 · 点击关闭</button>
+    <div class="receipt-stamp">PAID</div>
+  </div>
+</div>
+
 <script>
 // ====== PRODUCT DATA ======
 const products = [
@@ -694,9 +894,9 @@ const products = [
   {"seq":19,"category":"穿戴饰品","name":"水晶手串-两个傍晚的月亮","price":58,"limit":1},
 
   // 服饰家居
-  {"seq":20,"category":"服饰家居","name":"T恤-时钟","price":59,"limit":2,"limited":true},
-  {"seq":21,"category":"服饰家居","name":"T恤-WAKE ME UP","price":59,"limit":2,"limited":true},
-  {"seq":22,"category":"服饰家居","name":"T恤-雕塑","price":59,"limit":2,"limited":true},
+  {"seq":20,"category":"服饰家居","name":"T恤-时钟","price":59,"limit":2,"limited":true,"hasSizes":true,"sizes":["S","M","L","XL"]},
+  {"seq":21,"category":"服饰家居","name":"T恤-WAKE ME UP","price":59,"limit":2,"limited":true,"hasSizes":true,"sizes":["S","M","L","XL"]},
+  {"seq":22,"category":"服饰家居","name":"T恤-雕塑","price":59,"limit":2,"limited":true,"hasSizes":true,"sizes":["S","M","L","XL"]},
   {"seq":23,"category":"服饰家居","name":"铆钉饺子包","price":118,"limit":1},
   {"seq":24,"category":"服饰家居","name":"红波点手提包","price":128,"limit":1},
   {"seq":25,"category":"服饰家居","name":"粉波点手提包","price":128,"limit":1,"limited":true},
@@ -745,8 +945,9 @@ const products = [
 ];
 
 // ====== STATE ======
-// cart: { seq: { name, price, limit, qty, type } }
+// cart key: seq for normal items, "seq-S" etc for sized items
 let cart = {};
+let selectedSizes = {}; // { seq: "S"|"M"|"L"|"XL" }
 
 // ====== HELPERS ======
 function getProduct(seq) { return products.find(x => x.seq === seq); }
@@ -756,26 +957,57 @@ function fmtLimit(limit) {
 function limitClass(limit) {
   return limit === Infinity ? 'unlimited' : '';
 }
-function canAdd(seq) {
+function cartKey(seq, size) {
+  return size ? `${seq}_${size}` : `${seq}`;
+}
+function totalQtyForSeq(seq) {
+  const base = String(seq);
+  return Object.entries(cart).reduce((s, [k, c]) => {
+    if (k === base || k.startsWith(base + '_')) return s + c.qty;
+    return s;
+  }, 0);
+}
+function canAdd(seq, size) {
   const p = getProduct(seq);
   if (!p) return false;
-  if (p.type === 'gift') return false; // gift is auto, never manual
-  const cur = cart[seq] ? cart[seq].qty : 0;
-  return cur < p.limit;
+  if (p.type === 'gift') return false;
+  if (p.hasSizes && !size) return false;
+  const total = totalQtyForSeq(seq);
+  return total < p.limit;
 }
 function cartCount() {
   return Object.values(cart).reduce((s, c) => s + c.qty, 0);
 }
 function cartSubtotal() {
-  // total excluding gifts (gifts have price 0 anyway, but let's be explicit)
-  return Object.entries(cart).reduce((s, [seq, c]) => {
-    const p = getProduct(+seq);
+  return Object.entries(cart).reduce((s, [key, c]) => {
+    const seq = parseInt(key);
+    const p = getProduct(seq);
     return p && p.type !== 'gift' ? s + c.price * c.qty : s;
   }, 0);
 }
 function cartTotal() {
-  // same as subtotal since gifts are ¥0
   return Object.values(cart).reduce((s, c) => s + c.price * c.qty, 0);
+}
+function selectSize(seq, size) {
+  const p = getProduct(seq);
+  if (!p || !p.hasSizes) return;
+  // deselect all options for this product
+  p.sizes.forEach(s => {
+    const el = document.getElementById(`sizeOpt-${seq}-${s}`);
+    if (el) el.classList.remove('selected');
+  });
+  // select clicked option
+  selectedSizes[seq] = size;
+  const opt = document.getElementById(`sizeOpt-${seq}-${size}`);
+  if (opt) opt.classList.add('selected');
+  // enable add button
+  const btn = document.getElementById(`addBtn-${seq}`);
+  if (btn) {
+    btn.disabled = false;
+    btn.classList.remove('limit-reached');
+    btn.textContent = '＋ 加入购物车';
+    btn.setAttribute('onclick', `addToCart(${seq},'${size}')`);
+  }
 }
 
 // ====== RENDER PRODUCTS ======
@@ -817,6 +1049,11 @@ cats.forEach(cat => {
               <div class="bar-wrap"><div class="bar-fill" id="giftBar-${p.seq}" style="width:0%"></div></div>
             </div>`;
           btnHtml = `<button class="add-btn limit-reached" disabled>满 ¥${p.giftThreshold} 自动赠送</button>`;
+        } else if (p.hasSizes) {
+          btnHtml = `<div class="size-selector" id="sizeSelector-${p.seq}">
+            ${p.sizes.map(s => `<span class="size-option" id="sizeOpt-${p.seq}-${s}" onclick="event.stopPropagation();selectSize(${p.seq},'${s}')">${s}</span>`).join('')}
+          </div>
+          <button class="add-btn limit-reached" id="addBtn-${p.seq}" disabled>请选择尺码</button>`;
         } else {
           btnHtml = `<button class="add-btn" id="addBtn-${p.seq}" onclick="addToCart(${p.seq})">＋ 加入购物车</button>`;
         }
@@ -853,45 +1090,57 @@ cats.forEach(cat => {
 });
 
 // ====== CART LOGIC ======
-function addToCart(seq) {
+function addToCart(seq, size) {
   const p = getProduct(seq);
   if (!p) return;
-  if (p.type === 'gift') return; // gift is auto
-  if (!canAdd(seq)) {
+  if (p.type === 'gift') return;
+  if (p.hasSizes && !size) { showToast('请先选择尺码'); return; }
+  if (!canAdd(seq, size)) {
     showToast(p.type === 'claim' ? '打卡棒每人限领一份～' : '已达限购数量，不能再加啦～');
     return;
   }
-  if (!cart[seq]) {
-    cart[seq] = { name: p.name, price: p.price, limit: p.limit, qty: 0, type: p.type || '' };
+  const key = cartKey(seq, size);
+  const displayName = size ? `${p.name} (${size})` : p.name;
+  if (!cart[key]) {
+    cart[key] = { name: displayName, price: p.price, limit: p.limit, qty: 0, type: p.type || '', seq: seq, size: size || '' };
   }
-  cart[seq].qty++;
+  cart[key].qty++;
+  // reset size selector after adding
+  if (p.hasSizes && selectedSizes[seq]) {
+    delete selectedSizes[seq];
+    p.sizes.forEach(s => {
+      const el = document.getElementById(`sizeOpt-${seq}-${s}`);
+      if (el) el.classList.remove('selected');
+    });
+    const btn = document.getElementById(`addBtn-${seq}`);
+    if (btn) { btn.disabled = true; btn.classList.add('limit-reached'); btn.textContent = '请选择尺码'; btn.setAttribute('onclick', ''); }
+  }
   updateUI();
-  showToast(p.type === 'claim' ? '已领取打卡棒，离场时记得凭截图兑换哦 📋' : `已添加「${p.name}」到购物车 ♥`);
+  showToast(p.type === 'claim' ? '已领取打卡棒，离场时记得凭截图兑换哦 📋' : `已添加「${displayName}」到购物车 ♥`);
   const badge = document.getElementById('cartBadge');
   badge.classList.add('pop');
   setTimeout(() => badge.classList.remove('pop'), 250);
 }
 
-function incCart(seq) {
-  if (!canAdd(seq)) {
-    showToast('已达限购数量～');
-    return;
-  }
-  cart[seq].qty++;
+function incCart(key) {
+  const entry = cart[key];
+  if (!entry) return;
+  const seq = entry.seq;
+  const size = entry.size || undefined;
+  if (!canAdd(seq, size)) { showToast('已达限购数量～'); return; }
+  entry.qty++;
   updateUI();
 }
 
-function decCart(seq) {
-  if (!cart[seq]) return;
-  cart[seq].qty--;
-  if (cart[seq].qty <= 0) {
-    delete cart[seq];
-  }
+function decCart(key) {
+  if (!cart[key]) return;
+  cart[key].qty--;
+  if (cart[key].qty <= 0) delete cart[key];
   updateUI();
 }
 
-function removeCart(seq) {
-  delete cart[seq];
+function removeCart(key) {
+  delete cart[key];
   updateUI();
 }
 
@@ -912,7 +1161,6 @@ function updateUI() {
   const total = cartTotal();
   const gift = getGiftStatus();
 
-  // badge — count includes gift if auto-added
   const badge = document.getElementById('cartBadge');
   if (count > 0) {
     badge.style.display = 'flex';
@@ -926,10 +1174,9 @@ function updateUI() {
     const btn = document.getElementById('addBtn-' + p.seq);
     if (!btn) return;
     const label = document.getElementById('cartQtyLabel-' + p.seq);
-    const inCart = cart[p.seq];
+    const inCartQty = totalQtyForSeq(p.seq);
 
     if (p.type === 'gift') {
-      // Gift card: update progress bar
       const remainEl = document.getElementById('giftRemain-' + p.seq);
       const barEl = document.getElementById('giftBar-' + p.seq);
       if (remainEl) remainEl.textContent = '¥' + gift.remain.toFixed(2);
@@ -945,12 +1192,32 @@ function updateUI() {
       return;
     }
 
-    if (inCart) {
+    // Skip size-selector products — their button state is managed by selectSize/addToCart
+    if (p.hasSizes) {
+      if (inCartQty > 0) {
+        btn.textContent = '✔ 已加入';
+        btn.style.background = 'linear-gradient(135deg, #f4a0b5, #e27895)';
+        btn.disabled = true;
+        btn.classList.add('limit-reached');
+        btn.setAttribute('onclick', '');
+        if (label) {
+          label.style.display = 'inline-block';
+          label.textContent = `已购 ${inCartQty}/${p.limit === Infinity ? '∞' : p.limit}`;
+        }
+      } else if (inCartQty >= p.limit) {
+        btn.textContent = '已达限购';
+        btn.classList.add('limit-reached');
+        btn.disabled = true;
+      }
+      return;
+    }
+
+    if (inCartQty > 0) {
       btn.textContent = '✔ 已加入';
       btn.style.background = 'linear-gradient(135deg, #f4a0b5, #e27895)';
       if (label) {
         label.style.display = 'inline-block';
-        label.textContent = `已购 ${inCart.qty}/${p.limit === Infinity ? '∞' : p.limit}`;
+        label.textContent = `已购 ${inCartQty}/${p.limit === Infinity ? '∞' : p.limit}`;
       }
     } else {
       if (p.type === 'claim') {
@@ -962,7 +1229,7 @@ function updateUI() {
       }
       if (label) label.style.display = 'none';
     }
-    if (!canAdd(p.seq) && !inCart) {
+    if (!canAdd(p.seq) && inCartQty === 0) {
       btn.classList.add('limit-reached');
       btn.textContent = p.type === 'claim' ? '已领取' : '已达限购';
     } else {
@@ -986,9 +1253,9 @@ function updateUI() {
 
     let html = '';
 
-    // Render regular cart items
-    Object.entries(cart).forEach(([seq, c]) => {
-      const p = getProduct(+seq);
+    // Render regular cart items — use cart key directly
+    Object.entries(cart).forEach(([key, c]) => {
+      const p = getProduct(c.seq);
       if (!p) return;
 
       if (p.type === 'claim') {
@@ -999,7 +1266,7 @@ function updateUI() {
               <div class="cart-item-claim-note">📋 ${p.claimNote}</div>
               <div class="cart-item-price" style="color:#b06a20">免费</div>
             </div>
-            <button class="cart-item-remove" onclick="removeCart(${seq})" title="取消领取">🗑️</button>
+            <button class="cart-item-remove" onclick="removeCart('${key}')" title="取消领取">🗑️</button>
           </div>
         `;
       } else {
@@ -1011,11 +1278,11 @@ function updateUI() {
               <div class="cart-item-price">¥${(c.price * c.qty).toFixed(2)}</div>
             </div>
             <div class="qty-stepper">
-              <button class="qty-btn" ${c.qty <= 1 ? 'disabled' : ''} onclick="decCart(${seq})">−</button>
+              <button class="qty-btn" ${c.qty <= 1 ? 'disabled' : ''} onclick="decCart('${key}')">−</button>
               <span class="qty-num">${c.qty}</span>
-              <button class="qty-btn" ${!canAdd(+seq) ? 'disabled' : ''} onclick="incCart(${seq})">＋</button>
+              <button class="qty-btn" ${!canAdd(c.seq, c.size || undefined) ? 'disabled' : ''} onclick="incCart('${key}')">＋</button>
             </div>
-            <button class="cart-item-remove" onclick="removeCart(${seq})" title="删除">🗑️</button>
+            <button class="cart-item-remove" onclick="removeCart('${key}')" title="删除">🗑️</button>
           </div>
         `;
       }
@@ -1038,7 +1305,6 @@ function updateUI() {
     cartItems.innerHTML = html;
   }
 
-  // Summary: show gift reminder if close to threshold
   const itemCountEl = document.getElementById('cartItemCount');
   const totalEl = document.getElementById('cartTotal');
 
@@ -1081,6 +1347,47 @@ function showToast(msg) {
   toastTimer = setTimeout(() => toast.classList.remove('show'), 2000);
 }
 
+// ====== RECEIPT ======
+let savedReceipt = null;
+
+function showReceipt(data) {
+  const { cartSnapshot, total, count, gift, hasClaim } = data;
+  const tbody = document.getElementById('receiptBody');
+  let rows = '';
+  Object.entries(cartSnapshot).forEach(([key, c]) => {
+    rows += `<tr>
+      <td><span class="receipt-item-name">${c.name}</span><span class="receipt-item-meta"> × ${c.qty}</span></td>
+      <td style="text-align:center">${c.qty}</td>
+      <td>¥${(c.price * c.qty).toFixed(2)}</td>
+    </tr>`;
+  });
+  if (gift.reached) {
+    const giftP = getProduct(GIFT_SEQ);
+    rows += `<tr>
+      <td><span class="receipt-item-name">${giftP.name}</span><span class="receipt-item-meta"> 🎀 满赠</span></td>
+      <td style="text-align:center">1</td>
+      <td>¥0.00</td>
+    </tr>`;
+  }
+  tbody.innerHTML = rows;
+
+  document.getElementById('receiptFooter').innerHTML = `
+    <div style="font-size:14px;font-weight:700;color:var(--rose-dark);margin-bottom:4px">
+      合计 <span style="font-size:20px">¥${total.toFixed(2)}</span> · 共 ${count} 件
+    </div>
+    ${hasClaim ? '<div style="color:#b06a20">📋 请凭小票+截图在离场时领取打卡棒</div>' : ''}
+    <div>千千祝你心愿成真 🌸</div>
+  `;
+
+  document.getElementById('receiptOverlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeReceipt() {
+  document.getElementById('receiptOverlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
 // ====== CHECKOUT ======
 document.getElementById('checkoutBtn').addEventListener('click', () => {
   const total = cartTotal();
@@ -1089,13 +1396,13 @@ document.getElementById('checkoutBtn').addEventListener('click', () => {
   if (count === 0 && !gift.reached) return;
   let msg = `确认结算吗？\n共 ${count} 件商品，合计 ¥${total.toFixed(2)}`;
   if (gift.reached) msg += '\n🎀 含赠品：刺绣书签 × 1';
-  const hasClaim = Object.keys(cart).some(s => getProduct(+s)?.type === 'claim');
+  const hasClaim = Object.keys(cart).some(key => getProduct(cart[key].seq)?.type === 'claim');
   if (hasClaim) msg += '\n📋 请记得凭小票+截图在离场时领取打卡棒';
   if (confirm(msg)) {
-    showToast('感谢购买！千千祝你心愿成真 🌸');
-    cart = {};
-    updateUI();
-    closeCart();
+    // snapshot cart for receipt before clearing
+    savedReceipt = { cartSnapshot: JSON.parse(JSON.stringify(cart)), total, count, gift, hasClaim };
+    cart = {}; updateUI(); closeCart();
+    showReceipt(savedReceipt);
   }
 });
 
