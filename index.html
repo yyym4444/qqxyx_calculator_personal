@@ -786,6 +786,26 @@
 	    background: var(--rose);
 	    color: #fff;
 	  }
+	  .receipt-download {
+	    display: block;
+	    width: 100%;
+	    margin-top: 10px;
+	    padding: 10px 0;
+	    border: none;
+	    border-radius: 25px;
+	    background: var(--rose);
+	    color: #fff;
+	    font-size: 14px;
+	    font-weight: 700;
+	    cursor: pointer;
+	    letter-spacing: 2px;
+	    transition: all 0.2s;
+	    position: relative;
+	    z-index: 1;
+	  }
+	  .receipt-download:hover {
+	    background: var(--rose-dark);
+	  }
 	  .receipt-stamp {
 	    position: absolute;
 	    top: 50%;
@@ -800,6 +820,7 @@
 	    z-index: 0;
 	  }
 </style>
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
 </head>
 <body>
 
@@ -864,6 +885,7 @@
     </table>
     <div class="receipt-divider">- - - - - - ✂ - - - - - -</div>
     <div class="receipt-footer" id="receiptFooter"></div>
+    <button class="receipt-download" onclick="downloadReceipt()">💾 保存小票图片</button>
     <button class="receipt-close" onclick="closeReceipt()">💝 谢谢惠顾 · 点击关闭</button>
     <div class="receipt-stamp">PAID</div>
   </div>
@@ -1386,6 +1408,25 @@ function showReceipt(data) {
 function closeReceipt() {
   document.getElementById('receiptOverlay').classList.remove('open');
   document.body.style.overflow = '';
+}
+
+async function downloadReceipt() {
+  const panel = document.querySelector('.receipt-panel');
+  if (!panel) return;
+  try {
+    const canvas = await html2canvas(panel, {
+      backgroundColor: '#fffef9',
+      scale: 2,
+      logging: false
+    });
+    const link = document.createElement('a');
+    link.download = '千千许愿箱_小票.png';
+    link.href = canvas.toDataURL('image/png');
+    link.click();
+    showToast('💾 小票已保存到相册/下载目录');
+  } catch(e) {
+    showToast('保存失败，请截图保存');
+  }
 }
 
 // ====== CHECKOUT ======
