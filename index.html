@@ -786,26 +786,6 @@
 	    background: var(--rose);
 	    color: #fff;
 	  }
-	  .receipt-download {
-	    display: block;
-	    width: 100%;
-	    margin-top: 10px;
-	    padding: 10px 0;
-	    border: none;
-	    border-radius: 25px;
-	    background: var(--rose);
-	    color: #fff;
-	    font-size: 14px;
-	    font-weight: 700;
-	    cursor: pointer;
-	    letter-spacing: 2px;
-	    transition: all 0.2s;
-	    position: relative;
-	    z-index: 1;
-	  }
-	  .receipt-download:hover {
-	    background: var(--rose-dark);
-	  }
 	  .receipt-stamp {
 	    position: absolute;
 	    top: 50%;
@@ -820,7 +800,6 @@
 	    z-index: 0;
 	  }
 </style>
-<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
 </head>
 <body>
 
@@ -873,27 +852,18 @@
 
 <!-- RECEIPT -->
 <div class="receipt-overlay" id="receiptOverlay" onclick="closeReceipt()">
-  <div class="receipt-panel" onclick="event.stopPropagation()" id="receiptPanel">
-    <!-- text layer -->
-    <div id="receiptContent">
-      <div class="receipt-header">
-        <div class="receipt-shop">🌸 千千许愿箱</div>
-        <div style="font-size:11px;color:#a09080;margin-top:2px">线下快闪 · 周边产品</div>
-      </div>
-      <div class="receipt-divider">- - - - - - ✂ - - - - - -</div>
-      <table class="receipt-table">
-        <thead><tr><th>商品</th><th style="text-align:center;width:40px">件</th><th>金额</th></tr></thead>
-        <tbody id="receiptBody"></tbody>
-      </table>
-      <div class="receipt-divider">- - - - - - ✂ - - - - - -</div>
-      <div class="receipt-footer" id="receiptFooter"></div>
+  <div class="receipt-panel" onclick="event.stopPropagation()">
+    <div class="receipt-header">
+      <div class="receipt-shop">🌸 千千许愿箱</div>
+      <div style="font-size:11px;color:#a09080;margin-top:2px">线下快闪 · 周边产品</div>
     </div>
-    <!-- image layer (hidden, shown after canvas render) -->
-    <div id="receiptImageWrap" style="display:none;text-align:center">
-      <img id="receiptImage" src="" alt="小票" style="width:100%;border-radius:4px">
-      <div style="font-size:12px;color:var(--rose-dark);margin-top:8px;font-weight:600">👆 长按上方图片即可保存到相册</div>
-    </div>
-    <button class="receipt-download" id="receiptDownloadBtn" onclick="downloadReceipt()">💾 保存小票图片</button>
+    <div class="receipt-divider">- - - - - - ✂ - - - - - -</div>
+    <table class="receipt-table">
+      <thead><tr><th>商品</th><th style="text-align:center;width:40px">件</th><th>金额</th></tr></thead>
+      <tbody id="receiptBody"></tbody>
+    </table>
+    <div class="receipt-divider">- - - - - - ✂ - - - - - -</div>
+    <div class="receipt-footer" id="receiptFooter"></div>
     <button class="receipt-close" onclick="closeReceipt()">💝 谢谢惠顾 · 点击关闭</button>
     <div class="receipt-stamp">PAID</div>
   </div>
@@ -1409,11 +1379,6 @@ function showReceipt(data) {
     <div>千千祝你心愿成真 🌸</div>
   `;
 
-  // reset to text view
-  document.getElementById('receiptContent').style.display = 'block';
-  document.getElementById('receiptImageWrap').style.display = 'none';
-  document.getElementById('receiptDownloadBtn').textContent = '💾 保存小票图片';
-
   document.getElementById('receiptOverlay').classList.add('open');
   document.body.style.overflow = 'hidden';
 }
@@ -1423,36 +1388,6 @@ function closeReceipt() {
   document.body.style.overflow = '';
 }
 
-async function downloadReceipt() {
-  const content = document.getElementById('receiptContent');
-  const imgWrap = document.getElementById('receiptImageWrap');
-  const img = document.getElementById('receiptImage');
-  const btn = document.getElementById('receiptDownloadBtn');
-  if (!content || !imgWrap || !img || !btn) return;
-
-  // If already showing image, toggle back to text
-  if (imgWrap.style.display !== 'none') {
-    imgWrap.style.display = 'none';
-    content.style.display = 'block';
-    btn.textContent = '💾 保存小票图片';
-    return;
-  }
-
-  try {
-    const canvas = await html2canvas(content, {
-      backgroundColor: '#fffef9',
-      scale: 2,
-      logging: false
-    });
-    img.src = canvas.toDataURL('image/png');
-    content.style.display = 'none';
-    imgWrap.style.display = 'block';
-    btn.textContent = '📋 返回文字小票';
-    showToast('👆 长按上方图片保存到相册');
-  } catch(e) {
-    showToast('生成失败，请截图保存');
-  }
-}
 
 // ====== CHECKOUT ======
 document.getElementById('checkoutBtn').addEventListener('click', () => {
